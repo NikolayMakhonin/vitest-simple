@@ -1,5 +1,5 @@
 {
-  "name": "vitest",
+  "name": "@flemist/vitest",
   "version": "0.18.0",
   "description": "A blazing fast unit test framework powered by Vite",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
@@ -59,7 +59,7 @@
   "scripts": {
     "build": "rimraf dist && rollup -c",
     "dev": "rollup -c --watch -m inline",
-    "prepublishOnly": "nr build"
+    "_prepublishOnly": "nr build"
   },
   "peerDependencies": {
     "@edge-runtime/vm": "*",
