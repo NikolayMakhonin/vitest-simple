@@ -37,15 +37,27 @@ export async function run(files: string[], config: ResolvedConfig): Promise<void
       continue
 
     await withEnv(environment, config.environmentOptions || {}, async () => {
-      for (const file of files) {
+      if (config.concurrentFiles) {
         workerState.mockMap.clear()
         resetModules()
 
-        workerState.filepath = file
+        workerState.filepath = files[0]
 
-        await startTests([file], config)
+        await startTests(files, config)
 
         workerState.filepath = undefined
+      }
+      else {
+        for (const file of files) {
+          workerState.mockMap.clear()
+          resetModules()
+
+          workerState.filepath = file
+
+          await startTests([file], config)
+
+          workerState.filepath = undefined
+        }
       }
     })
   }

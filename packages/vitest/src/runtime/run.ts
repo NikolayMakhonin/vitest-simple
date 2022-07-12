@@ -266,7 +266,7 @@ async function runSuiteChild(c: Task) {
 }
 
 export async function runFiles(files: File[], config: ResolvedConfig) {
-  for (const file of files) {
+  async function runFile(file: File) {
     if (!file.tasks.length && !config.passWithNoTests) {
       if (!file.result?.error) {
         file.result = {
@@ -277,6 +277,15 @@ export async function runFiles(files: File[], config: ResolvedConfig) {
     }
 
     await runSuite(file)
+  }
+
+  if (config.concurrentFiles) {
+    await Promise.all(files.map(runFile))
+  }
+  else {
+    for (const file of files) {
+      await runFile(file)
+    }
   }
 }
 

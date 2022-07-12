@@ -393,6 +393,8 @@ export interface InlineConfig {
      */
     seed?: number
   }
+
+  concurrentFiles?: boolean
 }
 
 export interface UserConfig extends InlineConfig {
